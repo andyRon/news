@@ -9,6 +9,20 @@
 			>{{item.classname}}</view>
 		</scroll-view>
 		
+		<view class="content">
+			<div class="row" v-for="item in newsArr" :key="item.id">
+				<newsbox :item="item" @click="goDetail(item)"></newsbox>
+			</div>
+		</view>
+		
+		<view class="nodata" v-if="!newsArr.length">
+			<image src="../../static/images/nodata.png" mode="widthFix"></image>
+		</view>
+		
+		<view class="loading" v-if="newsArr.length">			
+			<view v-if="loading==1">数据加载中...</view>
+			<view v-if="loading==2">没有更多了~~</view>
+		</view>
 	</view>
 </template>
 
@@ -26,10 +40,20 @@
 		},
 		onLoad() {
 			this.getNavData()
+			this.getNewsData()
 		},
 		methods: {
+			goDetail(item) {
+				uni.navigateTo({
+				})
+			},
 			clickNav(index, id) {
-				
+				this.navIndex=index;	
+				this.currentPage=1;	
+				this.currentId=id;			
+				this.newsArr=[]
+				this.loading=0;
+				this.getNewsData(id)
 			},
 			getNavData() {
 				uni.request({
@@ -39,7 +63,33 @@
 						this.navArr=res.data
 					}
 				})
+			},
+			getNewsData() {
+				uni.request({
+					url:'https://ku.qingnian8.com/dataApi/news/newslist.php',
+					data: {
+						cid: this.currentId,
+						page: this.currentPage
+					},
+					success:res=>{
+						console.log(res)
+						if (res.data.length==0) {
+							this.loading=2
+						}
+						this.newsArr=[...this.newsArr, ...res.data]
+					}
+				})
 			}
+		},
+		// 滚动到底部调用
+		onReachBottom() {
+			console.log('到底了')
+			if (this.loading == 2) {
+				return;
+			}
+			this.currentPage++;
+			this.loading=1;
+			this.getNewsData();
 		}
 	}
 </script>
@@ -51,7 +101,7 @@
 	white-space: nowrap;
 	position: fixed;
 	left:0;
-	top:var(--window-top);
+/* 	top:var(--window-top);
 	/deep/ ::-webkit-scrollbar {
 		width: 4px !important;
 		height: 1px !important;
@@ -59,7 +109,7 @@
 		background: transparent !important;
 		-webkit-appearance: auto !important;
 		display: block;
-	}
+	} */
 	.item {
 		font-size: 40rpx;
 		display: inline-block;
@@ -71,4 +121,27 @@
 		}
 	}
 }
+
+.content {
+	padding: 30rpx;
+	padding-top: 130rpx;;
+	.row {
+		border-bottom: 1px dotted #efefef;
+		padding: 20rpx 0;
+	}
+}
+.nodata {
+	display: flex;
+	justify-content: center;
+	image {
+		width: 360rpx;
+	}
+}
+.loading {
+	text-align: center;
+	font-size: 26rpx;
+	color: #888;
+	line-height: 2em;
+}
+
 </style>
