@@ -12,6 +12,13 @@
 			{
 				"navigationBarTitleText" : "个人中心"
 			}
+		},
+		{
+			"path" : "pages/detail/detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {

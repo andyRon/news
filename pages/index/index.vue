@@ -11,7 +11,7 @@
 		
 		<view class="content">
 			<div class="row" v-for="item in newsArr" :key="item.id">
-				<newsbox :item="item" @click="goDetail(item)"></newsbox>
+				<newsbox :item="item" @click.native="goDetail(item)"></newsbox>
 			</div>
 		</view>
 		
@@ -45,6 +45,7 @@
 		methods: {
 			goDetail(item) {
 				uni.navigateTo({
+					url: `/pages/detail/detail?cid=${item.classid}&id=${item.id}`
 				})
 			},
 			clickNav(index, id) {
