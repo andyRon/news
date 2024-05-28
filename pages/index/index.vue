@@ -85,7 +85,7 @@
 		// 滚动到底部调用
 		onReachBottom() {
 			console.log('到底了')
-			if (this.loading == 2) {
+			if (this.loading == 2) {  // 没有数据就不再请求
 				return;
 			}
 			this.currentPage++;
@@ -95,25 +95,25 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 .navscroll {
 	height: 100rpx;
 	background: #F7F8FA;
-	white-space: nowrap;
+	white-space: nowrap;  // 保证一行,不换行
 	position: fixed;
 	left:0;
-/* 	top:var(--window-top);
-	/deep/ ::-webkit-scrollbar {
+	z-index: 10;  // 让滚动条在上层
+	/deep/ ::-webkit-scrollbar {  // 伪元素，用于设置滚动条的样式【WebKit浏览器（如 Chrome、Safari）】
 		width: 4px !important;
 		height: 1px !important;
 		overflow: auto !important;
 		background: transparent !important;
 		-webkit-appearance: auto !important;
 		display: block;
-	} */
+	}
 	.item {
 		font-size: 40rpx;
-		display: inline-block;
+		display: inline-block;  // 水平排列
 		line-height: 100rpx;
 		padding: 0 30rpx;
 		color: #333;
@@ -122,10 +122,9 @@
 		}
 	}
 }
-
 .content {
 	padding: 30rpx;
-	padding-top: 130rpx;;
+	padding-top: 130rpx;
 	.row {
 		border-bottom: 1px dotted #efefef;
 		padding: 20rpx 0;
@@ -134,7 +133,7 @@
 .nodata {
 	display: flex;
 	justify-content: center;
-	image {
+	image{
 		width: 360rpx;
 	}
 }

@@ -47,6 +47,7 @@
 					}
 				})
 			},
+			// 浏览历史保存到本地缓存中
 			saveHistory() {
 				let historyArr = uni.getStorageSync("historyArr") || []
 				let item = {
@@ -60,8 +61,8 @@
 				let index = historyArr.findIndex(i=> {
 					return i.id == this.detail.id
 				})
-				if (index>=0) {
-					historyArr.splice(index, 1)
+				if (index >= 0) {
+					historyArr.splice(index, 1)  // TODO
 				}
 				historyArr.unshift(item)
 				historyArr=historyArr.slice(0, 10)
@@ -72,13 +73,13 @@
 </script>
 
 <style lang="scss">
-.detail{
+.detail {
 	padding:30rpx;
-	.title{
+	.title {
 		font-size: 46rpx;
 		color:#333;
 	}
-	.info{
+	.info {
 		background: #F6F6F6;
 		padding:20rpx;
 		font-size: 25rpx;
@@ -87,10 +88,10 @@
 		justify-content: space-between;
 		margin:40rpx 0;
 	}
-	.content{
+	.content {
 		padding-bottom:50rpx;		
 	}
-	.description{
+	.description {
 		background: #FEF0F0;
 		font-size: 26rpx;
 		padding:20rpx;
